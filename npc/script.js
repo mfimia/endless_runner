@@ -9,24 +9,18 @@ const enemySizeRatio = 2.5
 
 let gameFrame = 0
 
-class BatEnemy {
-  constructor () {
+class Enemy {
+  constructor (imageSrc, spriteWidth, spriteHeight) {
     this.image = new Image()
-    this.image.src = './assets/enemy1.png'
-    this.spriteWidth = 293
-    this.spriteHeight = 155
+    this.image.src = imageSrc
+    this.spriteWidth = spriteWidth
+    this.spriteHeight = spriteHeight
     this.width = this.spriteWidth / enemySizeRatio
     this.height = this.spriteHeight / enemySizeRatio
     this.x = Math.random() * (canvas.width - this.width)
     this.y = Math.random() * (canvas.height - this.height)
     this.frame = 0
     this.flapSpeed = Math.floor(Math.random() * 9 + 3)
-  }
-  update () {
-    this.x += Math.random() * 4 - 2
-    this.y += Math.random() * 4 - 2
-    if (gameFrame % this.flapSpeed === 0)
-      this.frame > 4 ? this.frame = 0 : this.frame++ // animates sprite frames
   }
   draw () {
     ctx.drawImage(this.image,
@@ -35,19 +29,25 @@ class BatEnemy {
   }
 }
 
-class BirdEnemy {
+class BatEnemy extends Enemy {
   constructor () {
-    this.image = new Image()
-    this.image.src = './assets/enemy2.png'
+    super('./assets/enemy1.png', 293, 155)
+  }
+  update () {
+    this.x += Math.random() * 4 - 2
+    this.y += Math.random() * 4 - 2
+    if (gameFrame % this.flapSpeed === 0)
+      this.frame > 4 ? this.frame = 0 : this.frame++ // animates sprite frames
+  }
+  draw () {
+    super.draw()
+  }
+}
+
+class BirdEnemy extends Enemy {
+  constructor () {
+    super('./assets/enemy2.png', 266, 188)
     this.speed = Math.random() * 4 + 1
-    this.spriteWidth = 266
-    this.spriteHeight = 188
-    this.width = this.spriteWidth / enemySizeRatio
-    this.height = this.spriteHeight / enemySizeRatio
-    this.x = Math.random() * (canvas.width - this.width)
-    this.y = Math.random() * (canvas.height - this.height)
-    this.frame = 0
-    this.flapSpeed = Math.floor(Math.random() * 9 + 3)
     this.angle = 0
     this.angleSpeed = Math.random() * 0.2
     this.curve = Math.random() * 7
@@ -61,9 +61,7 @@ class BirdEnemy {
       this.frame > 4 ? this.frame = 0 : this.frame++ // animates sprite frames
   }
   draw () {
-    ctx.drawImage(this.image,
-      this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight,
-      this.x, this.y, this.width, this.height)
+    super.draw()
   }
 }
 
@@ -136,8 +134,9 @@ class SunEnemy {
 
 for (let i = 0; i < enemyAmount; i++) {
   // enemiesArray.push(new BatEnemy())
-  // enemiesArray.push(new BirdEnemy())
-  enemiesArray.push(new SunEnemy())
+  enemiesArray.push(new BirdEnemy())
+  // enemiesArray.push(new GhostEnemy())
+  // enemiesArray.push(new SunEnemy())
 }
 
 const animate = () => {
