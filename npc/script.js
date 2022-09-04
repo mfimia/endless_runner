@@ -3,7 +3,7 @@ const canvas = document.getElementById('canvas1')
 const ctx = canvas.getContext('2d')
 const CANVAS_WIDTH = canvas.width = 500
 const CANVAS_HEIGHT = canvas.height = 800
-const enemyAmount = 20
+const enemyAmount = 2
 const enemiesArray = []
 const enemySizeRatio = 2.5
 
@@ -29,7 +29,7 @@ class Enemy {
   }
 }
 
-class BatEnemy extends Enemy {
+class Bat extends Enemy {
   constructor () {
     super('./assets/enemy1.png', 293, 155)
   }
@@ -39,12 +39,9 @@ class BatEnemy extends Enemy {
     if (gameFrame % this.flapSpeed === 0)
       this.frame > 4 ? this.frame = 0 : this.frame++ // animates sprite frames
   }
-  draw () {
-    super.draw()
-  }
 }
 
-class BirdEnemy extends Enemy {
+class Bird extends Enemy {
   constructor () {
     super('./assets/enemy2.png', 266, 188)
     this.speed = Math.random() * 4 + 1
@@ -60,24 +57,12 @@ class BirdEnemy extends Enemy {
     if (gameFrame % this.flapSpeed === 0)
       this.frame > 4 ? this.frame = 0 : this.frame++ // animates sprite frames
   }
-  draw () {
-    super.draw()
-  }
 }
 
-class GhostEnemy {
+class Ghost extends Enemy {
   constructor () {
-    this.image = new Image()
-    this.image.src = './assets/enemy3.png'
+    super('./assets/enemy3.png', 218, 177)
     this.speed = Math.random() * 4 + 1
-    this.spriteWidth = 218
-    this.spriteHeight = 177
-    this.width = this.spriteWidth / enemySizeRatio
-    this.height = this.spriteHeight / enemySizeRatio
-    this.x = Math.random() * (canvas.width - this.width)
-    this.y = Math.random() * (canvas.height - this.height)
-    this.frame = 0
-    this.flapSpeed = Math.floor(Math.random() * 9 + 3)
     this.angle = 0
     this.angleSpeed = Math.random() * 1.5 + 0.5
     this.curve = Math.random() * 200 + 50
@@ -89,28 +74,14 @@ class GhostEnemy {
     if (gameFrame % this.flapSpeed === 0)
       this.frame > 4 ? this.frame = 0 : this.frame++ // animates sprite frames
   }
-  draw () {
-    ctx.drawImage(this.image,
-      this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight,
-      this.x, this.y, this.width, this.height)
-  }
 }
 
-class SunEnemy {
+class Sun extends Enemy {
   constructor () {
-    this.image = new Image()
-    this.image.src = './assets/enemy4.png'
+    super('./assets/enemy4.png', 213, 213)
     this.speed = Math.random() * 4 + 1
-    this.spriteWidth = 213
-    this.spriteHeight = 213
-    this.width = this.spriteWidth / enemySizeRatio
-    this.height = this.spriteHeight / enemySizeRatio
-    this.x = Math.random() * (canvas.width - this.width)
-    this.y = Math.random() * (canvas.height - this.height)
     this.newX = Math.random() * (canvas.width - this.width)
     this.newY = Math.random() * (canvas.height - this.height) // gets random target within canvas
-    this.frame = 0
-    this.flapSpeed = Math.floor(Math.random() * 10 + 1)
     this.interval = Math.floor(Math.random() * 200 + 50)
   }
   update () {
@@ -125,18 +96,13 @@ class SunEnemy {
     if (gameFrame % this.flapSpeed === 0)
       this.frame > 4 ? this.frame = 0 : this.frame++ // animates sprite frames
   }
-  draw () {
-    ctx.drawImage(this.image,
-      this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight,
-      this.x, this.y, this.width, this.height)
-  }
 }
 
 for (let i = 0; i < enemyAmount; i++) {
-  // enemiesArray.push(new BatEnemy())
-  enemiesArray.push(new BirdEnemy())
-  // enemiesArray.push(new GhostEnemy())
-  // enemiesArray.push(new SunEnemy())
+  enemiesArray.push(new Bat())
+  enemiesArray.push(new Bird())
+  enemiesArray.push(new Ghost())
+  enemiesArray.push(new Sun())
 }
 
 const animate = () => {
