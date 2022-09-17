@@ -1,4 +1,4 @@
-import { STATES, STATE_NAMES } from './constants.js'
+import { GAME_SPEED, STATES, STATE_NAMES } from './constants.js'
 
 class State {
   constructor (state) {
@@ -13,11 +13,13 @@ export class Sitting extends State {
   }
   enter () {
     // set up state conditions
+    this.player.frameX = 0
+    this.player.maxFrame = 4
     this.player.frameY = 5
   }
   handleInput (input) {
     // define input-based operations
-    if (input.includes('ArrowLeft') || input.includes('ArrowRight')) this.player.setState(STATES.RUNNING)
+    if (input.includes('ArrowLeft') || input.includes('ArrowRight')) this.player.setState(STATES.RUNNING, GAME_SPEED.NORMAL)
   }
 }
 
@@ -27,11 +29,13 @@ export class Running extends State {
     this.player = player
   }
   enter () {
+    this.player.frameX = 0
+    this.player.maxFrame = 8
     this.player.frameY = 3
   }
   handleInput (input) {
-    if (input.includes('ArrowDown')) this.player.setState(STATES.SITTING)
-    else if (input.includes('ArrowUp')) this.player.setState(STATES.JUMPING)
+    if (input.includes('ArrowDown')) this.player.setState(STATES.SITTING, GAME_SPEED.PAUSED)
+    else if (input.includes('ArrowUp')) this.player.setState(STATES.JUMPING, GAME_SPEED.NORMAL)
   }
 }
 
@@ -41,11 +45,13 @@ export class Jumping extends State {
     this.player = player
   }
   enter () {
+    this.player.frameX = 0
+    this.player.maxFrame = 6
     if (this.player.onGround()) this.player.vy -= this.player.jumpPower
     this.player.frameY = 1
   }
   handleInput (input) {
-    if (this.player.vy > this.player.weight) this.player.setState(STATES.FALLING)
+    if (this.player.vy > this.player.weight) this.player.setState(STATES.FALLING, GAME_SPEED.NORMAL)
   }
 }
 
@@ -55,9 +61,11 @@ export class Falling extends State {
     this.player = player
   }
   enter () {
+    this.player.frameX = 0
+    this.player.maxFrame = 6
     this.player.frameY = 2
   }
   handleInput (input) {
-    if (this.player.onGround()) this.player.setState(STATES.RUNNING)
+    if (this.player.onGround()) this.player.setState(STATES.RUNNING, GAME_SPEED.NORMAL)
   }
 }
