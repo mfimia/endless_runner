@@ -11,3 +11,18 @@ export const STATE_NAMES = {
   JUMPING: 'JUMPING',
   FALLING: 'FALLING',
 }
+
+export const RECOMMENDED_SETTINGS = {
+  FPS: 20,
+  MAX_SPEED: 3,
+  JUMP_POWER: 20,
+}
+
+export const GAME_SPEED = {
+  PAUSED: 0,
+  NORMAL: 1
+}
+
+export const BOUNDARIES = {
+  GROUND: 80
+}
