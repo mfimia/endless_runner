@@ -15,7 +15,7 @@ export const STATE_NAMES = {
 export const RECOMMENDED_SETTINGS = {
   FPS: 20,
   MAX_SPEED: 3,
-  JUMP_POWER: 20,
+  JUMP_POWER: 25,
 }
 
 export const GAME_SPEED = {
@@ -24,5 +24,9 @@ export const GAME_SPEED = {
 }
 
 export const BOUNDARIES = {
-  GROUND: 80
+  GROUND: 84
+}
+
+export const ENEMY_RATIO = {
+  PLANT: 0.5
 }
