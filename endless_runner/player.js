@@ -30,6 +30,7 @@ export class Player {
     this.currentState.enter() // initialize default state
   }
   update (input, deltaTime) {
+    this.checkCollision()
     this.currentState.handleInput(input)
     // horizontal movement
     this.x += this.speed
@@ -56,6 +57,7 @@ export class Player {
     } else this.frameTimer += deltaTime
   }
   draw (context) {
+    if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
     context.drawImage(this.image,
       this.frameX * this.width, this.frameY * this.height, this.width, this.height,
       this.x, this.y, this.width, this.height)
@@ -68,5 +70,20 @@ export class Player {
     this.currentState = this.states[state]
     this.game.speed = this.game.maxSpeed * speed
     this.currentState.enter()
+  }
+  checkCollision () {
+    this.game.enemies.forEach(enemy => {
+      const { x, y, width, height } = enemy
+      if (x < this.x + this.width
+        && x + width > this.x
+        && y < this.y + this.height
+        && y + height > this.y) {
+        // collision detected
+        enemy.markedForDeletion = true
+        this.game.score++
+      } else {
+        // no collision
+      }
+    })
   }
 }
