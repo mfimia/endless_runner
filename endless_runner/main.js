@@ -1,8 +1,9 @@
-import { BOUNDARIES, ENEMY_RATIO, GAME_SPEED, RECOMMENDED_SETTINGS } from "./constants.js"
+import { BOUNDARIES, ENEMY_RATIO, GAME_SPEED, RECOMMENDED_GAME_SETTINGS } from "./constants.js"
 import InputHandler from "./input.js"
 import { Player } from "./player.js"
 import { Background } from './background.js'
 import { ClimbingEnemy, FlyingEnemy, GroundEnemy } from "./enemies.js"
+import { UI } from "./UI.js"
 
 window.addEventListener('load', () => {
   const canvas = document.getElementById('canvas1')
@@ -11,22 +12,24 @@ window.addEventListener('load', () => {
   canvas.height = 500
 
   class Game {
-    constructor (width, height) {
+    constructor(width, height) {
       this.width = width
       this.height = height
       this.groundMargin = BOUNDARIES.GROUND
       this.speed = GAME_SPEED.PAUSED // pixels per frame
-      this.maxSpeed = RECOMMENDED_SETTINGS.MAX_SPEED
+      this.maxSpeed = RECOMMENDED_GAME_SETTINGS.MAX_SPEED
       this.background = new Background(this)
       this.player = new Player(this)
       this.input = new InputHandler(this)
+      this.UI = new UI(this)
       this.enemies = []
       this.enemyTimer = 0
       this.enemyInterval = 1000 // add one enemy per second
       this.debug = false
       this.score = 0
+      this.fontColor = 'black'
     }
-    update (deltaTime) {
+    update(deltaTime) {
       this.background.update()
       // handleEnemies
       if (this.enemyTimer > this.enemyInterval) {
@@ -39,14 +42,15 @@ window.addEventListener('load', () => {
       })
       this.player.update(this.input.keys, deltaTime)
     }
-    draw (context) {
+    draw(context) {
       this.background.draw(context) // background drawn behind player
       this.enemies.forEach(enemy => {
         enemy.draw(context)
       })
       this.player.draw(context)
+      this.UI.draw(context)
     }
-    addEnemy () {
+    addEnemy() {
       if (this.speed > 0 && Math.random() < ENEMY_RATIO.PLANT) this.enemies.push(new GroundEnemy(this))
       else if (this.speed > 0) this.enemies.push(new ClimbingEnemy(this))
       this.enemies.push(new FlyingEnemy(this))

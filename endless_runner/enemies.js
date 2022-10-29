@@ -1,15 +1,15 @@
-import { RECOMMENDED_SETTINGS } from './constants.js'
+import { RECOMMENDED_GAME_SETTINGS } from './constants.js'
 
 class Enemy {
-  constructor () {
+  constructor() {
     this.frameX = 0
     this.frameY = 0
-    this.fps = RECOMMENDED_SETTINGS.FPS
+    this.fps = RECOMMENDED_GAME_SETTINGS.FPS
     this.frameInterval = 1000 / this.fps
     this.frameTimer = 0
     this.markedForDeletion = false
   }
-  update (deltaTime) {
+  update(deltaTime) {
     this.x -= this.speedX + this.game.speed
     this.y += this.speedY
     if (this.frameTimer > this.frameInterval) {
@@ -20,7 +20,7 @@ class Enemy {
     // check if off screen
     if (this.x + this.width < 0) this.markedForDeletion = true
   }
-  draw (context) {
+  draw(context) {
     if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height)
     context.drawImage(this.image,
       this.frameX * this.width, 0, this.width, this.height,
@@ -29,7 +29,7 @@ class Enemy {
 }
 
 export class FlyingEnemy extends Enemy {
-  constructor (game) {
+  constructor(game) {
     super()
     this.game = game
     this.width = 60
@@ -43,7 +43,7 @@ export class FlyingEnemy extends Enemy {
     this.angle = 0
     this.va = Math.random() * 0.1 + 0.1
   }
-  update (deltaTime) {
+  update(deltaTime) {
     super.update(deltaTime)
     this.angle += this.va
     this.y += Math.sin(this.angle)
@@ -51,7 +51,7 @@ export class FlyingEnemy extends Enemy {
 }
 
 export class GroundEnemy extends Enemy {
-  constructor (game) {
+  constructor(game) {
     super()
     this.game = game
     this.width = 60
@@ -66,7 +66,7 @@ export class GroundEnemy extends Enemy {
 }
 
 export class ClimbingEnemy extends Enemy {
-  constructor (game) {
+  constructor(game) {
     super()
     this.game = game
     this.width = 120
@@ -78,12 +78,12 @@ export class ClimbingEnemy extends Enemy {
     this.speedY = Math.random() > 0.5 ? 1 : -1
     this.maxFrame = 5
   }
-  update (deltaTime) {
+  update(deltaTime) {
     super.update(deltaTime)
     if (this.y > this.game.height - this.height - this.game.groundMargin) this.speedY *= -1
     if (this.y < -this.height) this.markedForDeletion = true
   }
-  draw (context) {
+  draw(context) {
     super.draw(context)
     context.beginPath()
     context.moveTo(this.x + this.width / 2, 0)
