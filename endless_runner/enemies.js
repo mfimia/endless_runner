@@ -1,10 +1,10 @@
-import { RECOMMENDED_GAME_SETTINGS } from './constants.js'
+import { GAME_SETTINGS } from './constants.js'
 
 class Enemy {
   constructor() {
     this.frameX = 0
     this.frameY = 0
-    this.fps = RECOMMENDED_GAME_SETTINGS.FPS
+    this.fps = GAME_SETTINGS.FPS
     this.frameInterval = 1000 / this.fps
     this.frameTimer = 0
     this.markedForDeletion = false

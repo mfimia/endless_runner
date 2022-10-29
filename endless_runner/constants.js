@@ -16,10 +16,11 @@ export const STATE_NAMES = {
   ROLLING: 'ROLLING',
 }
 
-export const RECOMMENDED_GAME_SETTINGS = {
-  FPS: 15,
-  MAX_SPEED: 1.5,
+export const GAME_SETTINGS = {
+  FPS: 10,
+  MAX_SPEED: 1,
   JUMP_POWER: 25,
+  MAX_PARTICLES: 80
 }
 
 export const GAME_SPEED = {
@@ -42,4 +43,8 @@ export const CONTROLS = {
   ARROW_RIGHT: 'ArrowRight',
   ARROW_LEFT: 'ArrowLeft',
   ROLL: ' ',
+}
+
+export const PARTICLE_COLORS = {
+  DUST: 'rgba(0,0,0,0.2)'
 }

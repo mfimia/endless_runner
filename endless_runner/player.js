@@ -1,4 +1,4 @@
-import { CONTROLS, RECOMMENDED_GAME_SETTINGS } from "./constants.js"
+import { CONTROLS, GAME_SETTINGS } from "./constants.js"
 import { Falling, Jumping, Rolling, Running, Sitting } from "./playerStates.js"
 
 export class Player {
@@ -9,26 +9,24 @@ export class Player {
     this.x = 0
     this.y = this.game.height - this.height - this.game.groundMargin
     this.vy = 0
-    this.jumpPower = RECOMMENDED_GAME_SETTINGS.JUMP_POWER
+    this.jumpPower = GAME_SETTINGS.JUMP_POWER
     this.weight = 1
     this.image = document.getElementById('player')
     this.frameX = 0
     this.frameY = 0
-    this.fps = RECOMMENDED_GAME_SETTINGS.FPS // only for player
+    this.fps = GAME_SETTINGS.FPS // only for player
     this.frameInterval = 1000 / this.fps // how long each frame should stay
     this.frameTimer = 0
     this.speed = 0
     this.maxSpeed = 5 // pixels per frame
     this.rightLimit = this.game.width - this.width
     this.states = [
-      new Sitting(this),
-      new Running(this),
-      new Jumping(this),
-      new Falling(this),
-      new Rolling(this)
+      new Sitting(this.game),
+      new Running(this.game),
+      new Jumping(this.game),
+      new Falling(this.game),
+      new Rolling(this.game)
     ]
-    this.currentState = this.states[0]
-    this.currentState.enter() // initialize default state
   }
   update(input, deltaTime) {
     this.checkCollision()

@@ -6,7 +6,6 @@ export default class InputHandler {
     this.game = game
     window.addEventListener('keydown', e => {
       const { key } = e
-      console.log(key)
       if (
         (
           key === CONTROLS.ARROW_DOWN ||

@@ -1,4 +1,4 @@
-import { BOUNDARIES, ENEMY_RATIO, GAME_SPEED, RECOMMENDED_GAME_SETTINGS } from "./constants.js"
+import { BOUNDARIES, ENEMY_RATIO, GAME_SPEED, GAME_SETTINGS } from "./constants.js"
 import InputHandler from "./input.js"
 import { Player } from "./player.js"
 import { Background } from './background.js'
@@ -17,21 +17,25 @@ window.addEventListener('load', () => {
       this.height = height
       this.groundMargin = BOUNDARIES.GROUND
       this.speed = GAME_SPEED.PAUSED // pixels per frame
-      this.maxSpeed = RECOMMENDED_GAME_SETTINGS.MAX_SPEED
+      this.maxSpeed = GAME_SETTINGS.MAX_SPEED
       this.background = new Background(this)
       this.player = new Player(this)
       this.input = new InputHandler(this)
       this.UI = new UI(this)
       this.enemies = []
+      this.particles = []
       this.enemyTimer = 0
       this.enemyInterval = 1000 // add one enemy per second
       this.debug = false
       this.score = 0
       this.fontColor = 'black'
+      this.player.currentState = this.player.states[0]
+      this.player.currentState.enter() // initialize default state
     }
     update(deltaTime) {
       this.background.update()
-      // handleEnemies
+      this.player.update(this.input.keys, deltaTime)
+      // handle enemies
       if (this.enemyTimer > this.enemyInterval) {
         this.addEnemy()
         this.enemyTimer = 0
@@ -40,14 +44,24 @@ window.addEventListener('load', () => {
         enemy.update(deltaTime)
         if (enemy.markedForDeletion) this.enemies.splice(this.enemies.indexOf(enemy), 1)
       })
-      this.player.update(this.input.keys, deltaTime)
+      // handle particles
+      this.particles.forEach((particle, index) => {
+        particle.update()
+        if (particle.markedForDeletion) this.particles.splice(index, 1)
+      })
+      if (this.particles.length > GAME_SETTINGS.MAX_PARTICLES)
+        this.particles = this.particles.slice(0, GAME_SETTINGS.MAX_PARTICLES)
+
     }
     draw(context) {
       this.background.draw(context) // background drawn behind player
+      this.player.draw(context)
       this.enemies.forEach(enemy => {
         enemy.draw(context)
       })
-      this.player.draw(context)
+      this.particles.forEach(particle => {
+        particle.draw(context)
+      })
       this.UI.draw(context)
     }
     addEnemy() {
