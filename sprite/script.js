@@ -43,8 +43,6 @@ animationStates.forEach((state, i) => {
   spriteAnimations[state.name] = frames // map all locations to sprite animations array
 })
 
-console.log(spriteAnimations)
-
 const animate = () => {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
   // ctx.fillRect(50, 50, 100, 100)
