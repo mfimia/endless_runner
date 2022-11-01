@@ -14,12 +14,14 @@ export const STATE_NAMES = {
   JUMPING: 'JUMPING',
   FALLING: 'FALLING',
   ROLLING: 'ROLLING',
+  DIVING: 'DIVING',
+  HIT: 'HIT',
 }
 
 export const GAME_SETTINGS = {
   FPS: 10,
   MAX_SPEED: 1,
-  JUMP_POWER: 25,
+  JUMP_POWER: 18,
   MAX_PARTICLES: 80
 }
 

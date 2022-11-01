@@ -1,5 +1,5 @@
-import { CONTROLS, GAME_SETTINGS } from "./constants.js"
-import { Falling, Jumping, Rolling, Running, Sitting } from "./playerStates.js"
+import { CONTROLS, GAME_SETTINGS, GAME_SPEED, STATES } from "./constants.js"
+import { Diving, Falling, Hit, Jumping, Rolling, Running, Sitting } from "./playerStates.js"
 
 export class Player {
   constructor(game) {
@@ -10,7 +10,7 @@ export class Player {
     this.y = this.game.height - this.height - this.game.groundMargin
     this.vy = 0
     this.jumpPower = GAME_SETTINGS.JUMP_POWER
-    this.weight = 1
+    this.weight = 0.5
     this.image = document.getElementById('player')
     this.frameX = 0
     this.frameY = 0
@@ -25,7 +25,9 @@ export class Player {
       new Running(this.game),
       new Jumping(this.game),
       new Falling(this.game),
-      new Rolling(this.game)
+      new Rolling(this.game),
+      new Diving(this.game),
+      new Hit(this.game),
     ]
   }
   update(input, deltaTime) {
@@ -39,6 +41,7 @@ export class Player {
     else if (input.includes(CONTROLS.ARROW_LEFT)) this.speed = -this.maxSpeed
     // ------
 
+    // horiziontal boundaries
     else this.speed = 0
     if (this.x < 0) this.x = 0
     if (this.x > this.rightLimit) this.x = this.rightLimit
@@ -47,6 +50,10 @@ export class Player {
     this.y += this.vy
     if (!this.onGround()) this.vy += this.weight
     else this.vy = 0
+
+    // vertical boundaries
+    if (this.y > this.game.height - this.height - this.game.groundMargin)
+      this.y = this.game.height - this.height - this.game.groundMargin
 
     // sprite animation
     if (this.frameTimer > this.frameInterval) {
@@ -77,11 +84,14 @@ export class Player {
         && x + width > this.x
         && y < this.y + this.height
         && y + height > this.y) {
+        if (this.currentState === this.states[4] || this.currentState === this.states[5]) {
+          this.game.score++
+        } else {
+          this.setState(STATES.HIT, GAME_SPEED.PAUSED)
+        }
         // collision detected
         enemy.markedForDeletion = true
         this.game.score++
-      } else {
-        // no collision
       }
     })
   }
