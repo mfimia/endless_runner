@@ -1,3 +1,4 @@
+import { CollisionAnimation } from "./collisionAnimation.js"
 import { CONTROLS, GAME_SETTINGS, GAME_SPEED, STATES } from "./constants.js"
 import { Diving, Falling, Hit, Jumping, Rolling, Running, Sitting } from "./playerStates.js"
 
@@ -35,11 +36,8 @@ export class Player {
     this.currentState.handleInput(input)
     // horizontal movement
     this.x += this.speed
-
-    // --- always available ---
-    if (input.includes(CONTROLS.ARROW_RIGHT)) this.speed = this.maxSpeed
-    else if (input.includes(CONTROLS.ARROW_LEFT)) this.speed = -this.maxSpeed
-    // ------
+    if (input.includes(CONTROLS.ARROW_RIGHT) && this.currentState !== this.states[6]) this.speed = this.maxSpeed
+    else if (input.includes(CONTROLS.ARROW_LEFT) && this.currentState !== this.states[6]) this.speed = -this.maxSpeed
 
     // horiziontal boundaries
     else this.speed = 0
@@ -91,6 +89,7 @@ export class Player {
         }
         // collision detected
         enemy.markedForDeletion = true
+        this.game.collisions.push(new CollisionAnimation(this.game, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5))
         this.game.score++
       }
     })

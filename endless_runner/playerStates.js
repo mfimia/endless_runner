@@ -92,7 +92,7 @@ export class Rolling extends State {
     } else if (!input.includes(CONTROLS.ROLL) && !this.game.player.onGround()) {
       this.game.player.setState(STATES.FALLING, GAME_SPEED.NORMAL)
     } else if (input.includes(CONTROLS.ROLL) && input.includes(CONTROLS.ARROW_UP) && this.game.player.onGround()) this.game.player.vy -= GAME_SETTINGS.JUMP_POWER
-    else if (input.includes(CONTROLS.ARROW_DOWN)) this.game.player.setState(STATES.DIVING, GAME_SPEED.PAUSED)
+    else if (input.includes(CONTROLS.ARROW_DOWN) && !this.game.player.onGround()) this.game.player.setState(STATES.DIVING, GAME_SPEED.PAUSED)
   }
 }
 

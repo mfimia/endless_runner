@@ -19,10 +19,12 @@ export const STATE_NAMES = {
 }
 
 export const GAME_SETTINGS = {
-  FPS: 10,
+  FPS: 25,
   MAX_SPEED: 1,
   JUMP_POWER: 18,
-  MAX_PARTICLES: 80
+  MAX_PARTICLES: 80,
+  END_TIME: 20000,
+  WIN_SCORE: 100
 }
 
 export const GAME_SPEED = {
