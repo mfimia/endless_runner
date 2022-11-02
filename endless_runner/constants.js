@@ -23,14 +23,14 @@ export const GAME_SETTINGS = {
   MAX_SPEED: 1,
   JUMP_POWER: 18,
   MAX_PARTICLES: 80,
-  END_TIME: 20000,
-  WIN_SCORE: 100
+  END_TIME: 30000,
+  WIN_SCORE: 75
 }
 
 export const GAME_SPEED = {
   PAUSED: 0,
-  NORMAL: 1,
-  FAST: 2
+  NORMAL: 2,
+  FAST: 4
 }
 
 export const BOUNDARIES = {

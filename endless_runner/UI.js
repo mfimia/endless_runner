@@ -27,13 +27,13 @@ export class UI {
       if (this.game.score > GAME_SETTINGS.WIN_SCORE) {
         context.fillText('Boo-yah', this.game.width * 0.5, this.game.height * 0.5 - 20)
         context.font = this.fontSize * 0.7 + 'px ' + this.fontFamily
-        context.fillText('Some other text :D', this.game.width * 0.5, this.game.height * 0.5 + 20)
+        context.fillText('Nice job! Refresh this window to go again :D', this.game.width * 0.5, this.game.height * 0.5 + 20)
       } else {
         context.fillText('You lost!', this.game.width * 0.5, this.game.height * 0.5 - 20)
         context.font = this.fontSize * 0.7 + 'px ' + this.fontFamily
-        context.fillText('Some other text :D', this.game.width * 0.5, this.game.height * 0.5 + 20)
+        context.fillText('Refresh this window to try again!', this.game.width * 0.5, this.game.height * 0.5 + 20)
       }
-      context.restore()
     }
+    context.restore()
   }
 }
